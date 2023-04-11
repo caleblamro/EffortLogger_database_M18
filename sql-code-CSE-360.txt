@@ -1,3 +1,24 @@
+CREATE TABLE `effort_logs` (
+  `log_id` int NOT NULL AUTO_INCREMENT,
+  `employee_id` int NOT NULL,
+  `defect_ids` json DEFAULT NULL,
+  `task_id` varchar(50) NOT NULL,
+  `time_worked_seconds` decimal(10,0) NOT NULL,
+  `date_worked` date NOT NULL,
+  PRIMARY KEY (`log_id`),
+  KEY `employee_id` (`employee_id`),
+  CONSTRAINT `effort_logs_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `employee_projects` (
+  `employee_id` int NOT NULL,
+  `project_id` int NOT NULL,
+  PRIMARY KEY (`employee_id`,`project_id`),
+  KEY `project_id` (`project_id`),
+  CONSTRAINT `employee_projects_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `employee_projects_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE `employees` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
